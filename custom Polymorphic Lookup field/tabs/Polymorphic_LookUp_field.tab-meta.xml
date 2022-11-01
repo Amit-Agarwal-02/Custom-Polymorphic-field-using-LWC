@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomTab xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>A  reusable polymorphic Lookup field Lightning Component using LWC</description>
+    <label>Polymorphic LookUp field</label>
+    <lwcComponent>polymorphicLookUp</lwcComponent>
+    <motif>Custom9: Lightning</motif>
+</CustomTab>

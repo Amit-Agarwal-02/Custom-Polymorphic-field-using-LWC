@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Case Records</label>
+    <protected>false</protected>
+    <values>
+        <field>IsCreateNewRecordAllowed__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>sObjectAPIName__c</field>
+        <value xsi:type="xsd:string">Case</value>
+    </values>
+    <values>
+        <field>sObjectLabel__c</field>
+        <value xsi:type="xsd:string">Case</value>
+    </values>
+    <values>
+        <field>sObjectLookup_subtitle_field__c</field>
+        <value xsi:type="xsd:string">Subject</value>
+    </values>
+    <values>
+        <field>sObjectPluralName__c</field>
+        <value xsi:type="xsd:string">Cases</value>
+    </values>
+    <values>
+        <field>sObjectRecords_Search_by_field__c</field>
+        <value xsi:type="xsd:string">CaseNumber</value>
+    </values>
+    <values>
+        <field>sObject_Display_IconName__c</field>
+        <value xsi:type="xsd:string">standard:case</value>
+    </values>
+</CustomMetadata>

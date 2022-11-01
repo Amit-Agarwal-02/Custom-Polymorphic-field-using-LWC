@@ -1,0 +1,74 @@
+<template>
+    <div class="slds-combobox_container slds-combobox-addon_end">
+        <div class={getInputRecordsDropdownclass} id="primary-combobox-id-1">
+
+            <!-- This block shows the lookup searh box => start -->
+                <div class={getComboboxClass} role="none">
+                    <!-- Toggle input lookup search box -->
+                    <!-- This block will display if no record is selected -->
+                    <template if:false={isRecordSelected}>
+                        <input type="text" class={getInputClass} id="combobox-id-1" aria-autocomplete="list"
+                            aria-controls="listbox-id-1" aria-expanded="true" aria-haspopup="listbox" autocomplete="off"
+                            role="combobox" onfocus={handleInputRecordFocus} onblur={handleInputRecordBlur}
+                            value={getInputValue} placeholder={searchObjectPlaceholder} oninput={updateSearchTerm} />
+                        <lightning-icon icon-name="utility:search" size="x-small" alternative-text="search icon"
+                            class={getSearchIconClass}>
+                        </lightning-icon>
+                    </template>
+
+                    <!-- This block will display when a record is selected -->
+                    <!-- Toggle input lookup search box -->
+                    <template if:true={isRecordSelected}>
+                        <div class="slds-p-top_xx-small">
+                            <lightning-pill label={recSelected.title} onremove={removeSelectedRecord}>
+                                <lightning-icon icon-name={recSelected.icon} alternative-text={recSelected.title}>
+                                </lightning-icon>
+                            </lightning-pill>
+                        </div>
+                    </template>
+                </div>
+            <!-- This block shows the lookup searh box => End-->
+
+            <!-- This block shows the dropdown records and the New Record button on searhing => start -->
+                <div id="listbox-id-1" class="slds-dropdown slds-dropdown_length-with-icon-7 slds-dropdown_fluid"
+                    role="listbox">
+                    <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                        <!--  User New Record accessibility dynamically => start-->
+                            <template if:true={hasCreateAllowed}>
+                                <li role="presentation" class="slds-listbox__item" onclick={handleNewRecordClick}
+                                    data-objselectedapi={selectedObject.APIName}>
+                                    <div aria-selected="true" id="option0"
+                                        class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_term slds-has-focus"
+                                        role="option">
+                                        <lightning-icon icon-name='utility:add' alternative-text='Create New Record'
+                                            size='xx-small' title='Create New Record'></lightning-icon>
+                                        <span class="slds-media__body">
+                                            <span class="slds-listbox__option-text slds-listbox__option-text_entity slds-p-left_x-small"
+                                                title="Create New Record">New Record</span>
+                                        </span>
+                                    </div>
+                                </li>
+                            </template>
+                        <!--  User New Record accessibility dynamically => end-->
+
+                        <!--  Iterate and display the Records of the selected obejct => start-->
+                            <template for:each={searchRecords} for:item="rec">
+                                <li role="presentation" title={rec.title} key={rec.id} data-recordid={rec.id} class="slds-listbox__item" onclick={handleResultClick}>
+                                    <div class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta" role="option">
+                                        <span class="slds-media__figure slds-listbox__option-icon" data-recordid={rec.id}>
+                                            <lightning-icon icon-name={rec.icon} alternative-text={rec.title} size='medium'></lightning-icon>
+                                        </span>
+                                        <span class="slds-media__body">
+                                            <span class="slds-listbox__option-text slds-listbox__option-text_entity">{rec.title}</span>
+                                            <span class="slds-listbox__option-meta slds-listbox__option-meta_entity">{rec.subtitle}</span>
+                                        </span>
+                                    </div>
+                                </li>
+                            </template>
+                        <!--  Iterate and display the Records of the selected obejct => end-->
+                    </ul>
+                </div>
+            <!-- This block shows the dropdown records and the New Record button on searhing => end -->
+        </div>
+    </div>
+</template>

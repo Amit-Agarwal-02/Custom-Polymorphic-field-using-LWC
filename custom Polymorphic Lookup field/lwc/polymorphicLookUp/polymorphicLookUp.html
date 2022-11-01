@@ -1,0 +1,136 @@
+<template>
+    <lightning-card title="Custom Polymorphic LookUp field  using LWC" icon-name="standard:bundle_config">
+        <lightning-layout multiple-rows="true">
+            <lightning-layout-item padding="around-small" size="12">
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="combobox-id-1"><b>Related To</b></label>
+                    <div class="slds-form-element__control">
+                        <div class="slds-combobox-group">
+                            <!-- Select the Object -->
+                                <c-polymorphic-select-object onselectionchange={handleObjectSelection}>
+                                </c-polymorphic-select-object>
+                            <!-- Select the Object -->
+
+                            <!-- Look Up records for selected Object-->
+                                <template if:true={selectedObject}>
+                                    <c-polymorphic-search-records search-placeholder={searchObjectPlaceholder}
+                                        search-records={sObjectRecords} selected-object={selectedObject}
+                                        oncreatenewrecord={handleNewRecordCreation}>
+                                    </c-polymorphic-search-records>
+                                </template>
+                            <!-- Look Up records for selected Object-->
+
+                            <!--Start Modal Pop up to select the recordtype  -->
+                                <template if:true={selectRecordType}>
+                                    <div>
+                                        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01"
+                                            aria-modal="true" aria-describedby="modal-content-id-1"
+                                            class="slds-modal slds-fade-in-open" style="z-index:9999;">
+                                            <div class="slds-modal__container">
+
+                                                <!--header of the select Record type Modal pop-->
+                                                <header class="slds-modal__header">
+                                                    <button
+                                                        class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                                                        title="Close">
+                                                        <lightning-button-icon icon-name="utility:close"
+                                                            variant="bare-inverse" size="large" onclick={closeModal}>
+                                                        </lightning-button-icon>
+                                                        <span class="slds-assistive-text">Close</span>
+                                                    </button>
+                                                    <h2 id="modal-heading-01"
+                                                        class="slds-text-heading_medium slds-hyphenate">New
+                                                        {selectedObject.LabelName}
+                                                    </h2>
+                                                </header>
+
+                                                <!--content of the select Record type Modal pop-->
+                                                <div class="slds-modal__content slds-p-around_medium"
+                                                    id="modal-content-id-1">
+                                                    <template if:true={errorStatus}>
+                                                        <div class="slds-box slds-box_small slds-theme_error">
+                                                            <p>Review the errors on this page.</p>
+                                                        </div>
+                                                        <div class="slds-m-left_large">
+                                                            <p style="color: red;">
+                                                                Select at least one recordtype to proceed.
+                                                            </p>
+                                                        </div>
+                                                    </template>
+                                                    <div class="slds-m-left_xx-large slds-m-top_medium">
+                                                        <lightning-radio-group name="recordType"
+                                                            label="Select a record type" options={recordTypeOptions}
+                                                            value={recordTypeId} type="radio"
+                                                            onchange={handleRecordTypeChange}>
+                                                        </lightning-radio-group>
+                                                    </div>
+                                                </div>
+
+                                                <!--footer of the select Record type Modal pop-->
+                                                <footer class="slds-modal__footer">
+                                                    <lightning-button label="Cancel" class="slds-p-right_small" onclick={closeModal}>
+                                                    </lightning-button>
+                                                    <lightning-button label="Next" onclick={handleNext}
+                                                        variant="brand"></lightning-button>
+                                                </footer>
+                                            </div>
+                                        </section>
+                                        <div class="slds-backdrop slds-backdrop_open"></div>
+                                    </div>
+                                </template>
+                            <!--End Pop up to select the recordtype  -->
+
+                            <!--Start Modal pop up to Create New Record -->
+                                <template if:true={openCreateRecord}>
+                                    <div>
+                                        <section role="dialog" tabindex="-1"
+                                            class="slds-modal slds-fade-in-open slds-modal_medium"
+                                            aria-labelledby="modal-heading-02" aria-modal="true"
+                                            aria-describedby="modal-content-id-2">
+                                            <div class="slds-modal__container">
+
+                                                <!--header if the New Record Modal pop-->
+                                                <header class="slds-modal__header">
+                                                    <button
+                                                        class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                                                        title="Close">
+                                                        <lightning-button-icon icon-name="utility:close"
+                                                            variant="bare-inverse" size="large" onclick={closeModal}>
+                                                        </lightning-button-icon>
+                                                        <span class="slds-assistive-text">Close</span>
+                                                    </button>
+                                                    <h2 id="modal-heading-02"
+                                                        class="slds-text-heading_medium slds-hyphenate">New {selectedObject.LabelName}
+                                                    </h2>
+                                                </header>
+
+                                                <!--content of the New Record Modal pop-->
+                                                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
+                                                    <div class="slds-m-left_xx-large slds-m-top_medium">
+                                                    <lightning-record-form class="recordForm" object-api-name={selectedObject.APIName}
+                                                        record-type-id={recordTypeId} layout-type="Compact" columns="2"
+                                                        onload={handleLoad} density="comfy" onerror={handleError}
+                                                        onsuccess={handleSuccess}>
+                                                    </lightning-record-form>
+                                                    </div>
+                                                </div>
+
+                                                <!--footer of the New Record Modal pop-->
+                                                <footer class="slds-modal__footer">
+                                                    <lightning-button label="Save" class="slds-p-right_small" variant="brand" onclick={handleSubmit}>
+                                                    </lightning-button>
+                                                    <lightning-button label="Cancel" onclick={closeModal}></lightning-button>
+                                                </footer>
+                                            </div>
+                                        </section>
+                                        <div class="slds-backdrop slds-backdrop_open"></div>
+                                    </div>
+                                </template>
+                            <!--End Modal pop up to Create New Record -->
+                        </div>
+                    </div>
+                </div>
+            </lightning-layout-item>
+        </lightning-layout>
+    </lightning-card>
+</template>

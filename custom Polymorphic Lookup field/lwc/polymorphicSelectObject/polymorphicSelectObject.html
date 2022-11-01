@@ -1,0 +1,75 @@
+<template>
+    <div class="slds-combobox_object-switcher slds-combobox-addon_start">
+        <div class="slds-form-element">
+            <label class="slds-form-element__label slds-assistive-text" for="combobox-id-2"
+                    id="combobox-label-id-34">Filter Search by:</label>
+            <div class="slds-form-element__control">
+                <div class="slds-combobox_container">                                           
+                    <div class={getDropDownClass} aria-controls="primary-combobox-id-1">
+                        <!--Dropdown Button to show Object List -->
+                            <div style="border-color: 2px solid rgb(201, 201, 201);border-radius: 0.25em;"
+                                class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right"
+                                role="none"  onclick={handleObjListToSelect}>
+                                <button type="button"
+                                        class="slds-button slds-button_icon slds-button_icon-container-more"
+                                        aria-expanded="false" title="More Options"
+                                        aria-autocomplete="list"
+                                        aria-labelledby="combobox-label-id-34 combobox-id-2-selected-value"
+                                        id="combobox-id-2-selected-value"
+                                        aria-controls="objectswitcher-listbox-id-01"
+                                        aria-haspopup="listbox" 
+                                        onblur={handleInputRecordBlur} >
+                                    <span class="slds-truncate">
+                                        <lightning-icon icon-name={selectedObject.iconName}
+                                            alternative-text={selectedObject.iconName} size='medium'
+                                            title={selectedObject.iconName}>
+                                        </lightning-icon>
+                                    </span>
+                                    <span>
+                                        <lightning-icon icon-name='utility:down'
+                                            class="slds-p-left_x-small" alternative-text='down'
+                                            size='x-small' title='down'>
+                                        </lightning-icon>
+                                    </span>
+                                </button>
+                            </div>
+                        <!--Dropdown Button to show Object List-->
+
+                        <!-- Object List to be selected-->
+                            <div id="objectswitcher-listbox-id-01"
+                                 class="slds-dropdown slds-dropdown_length-5 slds-dropdown_x-small slds-dropdown_left"
+                                 role="listbox">
+                                <ul class="slds-listbox slds-listbox_vertical" role="group"
+                                    aria-label="Suggested for you">
+                                    <!--Iterate over the Object List from custom metadata -->
+                                    <template for:each={objectList} for:item="object">
+                                        <li role="presentation" key={object.APIName}
+                                            data-objapiname={object.APIName}
+                                            onclick={handleObjectSelection}
+                                            class="slds-listbox__item">
+                                            <div class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
+                                                 role="option">
+                                                <span
+                                                    class="slds-media__figure slds-listbox__option-icon">
+                                                    <lightning-icon icon-name={object.iconName}
+                                                                    alternative-text={object.iconName}
+                                                                    size='small' title={object.iconName}>
+                                                    </lightning-icon>
+                                                </span>
+                                                <span class="slds-media__body">
+                                                    <span class="slds-truncate"
+                                                          title={object.LabelName}>{object.LabelName}</span>
+                                                </span>
+                                            </div>
+                                        </li>
+                                    </template>
+                                    <!--Iterate over the Object List from custom metadata -->
+                                </ul>
+                            </div>
+                        <!-- Object List to be selected-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
